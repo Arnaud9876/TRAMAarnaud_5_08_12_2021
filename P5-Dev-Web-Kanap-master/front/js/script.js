@@ -19,20 +19,24 @@ fetch(index)
     console.log(error);
   });
 
+/*--fonction des cartes des elements des canapes--*/
+
 function constructElement(resultats) {
   let productLink = document.createElement("a");
   productLink.setAttribute("href", "./product.html?id=" + resultats._id);
   containerCanape.appendChild(productLink);
   let article = document.createElement("article");
-  article.innerHTML =
-    "<img src=" +
-    resultats.imageUrl +
-    ">" +
-    '<h3 class="productName">' +
-    resultats.name +
-    "</h3>" +
-    '<p class="productDescription">' +
-    resultats.description +
-    "</p>";
+  let img = document.createElement("img");
+  img.src = resultats.imageUrl;
+  img.alt = resultats.altTxt;
+  article.appendChild(img);
+  let h3 = document.createElement("h3");
+  h3.class = "productName";
+  h3.textContent = resultats.name;
+  article.appendChild(h3);
+  let p = document.createElement("p");
+  p.class = "productDescription";
+  p.textContent = resultats.description;
+  article.appendChild(p);
   productLink.appendChild(article);
 }
