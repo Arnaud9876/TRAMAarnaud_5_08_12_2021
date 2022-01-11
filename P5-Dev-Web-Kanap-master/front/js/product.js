@@ -15,11 +15,41 @@ fetch(productId)
 
     document.getElementById("addToCart").addEventListener("click", function () {
       let storage = window.localStorage;
-      storage.setItem("canape", "le contenu de ma variable");
-      alert(storage.getItem("canape"));
+      if (
+        storage.getItem("id") !== null &&
+        storage.getItem("colors") !== null
+      ) {
+        if (
+          storage.getItem("id") === resultats._id &&
+          storage.getItem("colors") === document.getElementById("colors").value
+        ) {
+          storage.quantity += document.getElementById("quantity").value;
+        } else {
+          storage.id = resultats._id;
+          storage.name = resultats.name;
+          storage.price = resultats.price;
+          storage.colors = document.getElementById("colors").value;
+          storage.quantity = document.getElementById("quantity").value;
+        }
+        else{
+          
+        }
+      }
+
+      /*--
+      let cart = new Array();
+      cart.push(resultats._id);
+      cart.push(resultats.name);
+      cart.push(resultats.price);
+      cart.push(document.getElementById("colors").value);
+      cart.push(document.getElementById("quantity").value);
+--*/
+
+      alert(storage.getItem("id"));
     });
   });
 
+/*--les infos du produit--*/
 function printProduct(resultats) {
   let image = document.createElement("img");
   image.src = resultats.imageUrl;
@@ -34,6 +64,7 @@ function printProduct(resultats) {
   let description = document.getElementById("description");
   description.textContent = resultats.description;
 
+  /*--les couleurs en option--*/
   for (let i = 0; i < resultats.colors.length; i++) {
     let option = document.createElement("option");
     option.value = resultats.colors[i];
