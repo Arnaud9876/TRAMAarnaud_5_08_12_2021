@@ -1,4 +1,4 @@
-/**afficher canap par son ID **/
+/**afficher canape par son ID **/
 let baseUrl = window.location.href;
 console.log(baseUrl);
 let id = baseUrl.substring(baseUrl.lastIndexOf("=") + 1);
@@ -12,40 +12,29 @@ fetch(productId)
     printProduct(resultats);
 
     /*--ajout du produit dans le localStorage--*/
-
     document.getElementById("addToCart").addEventListener("click", function () {
       let storage = window.localStorage;
-      if (
-        storage.getItem("id") !== null &&
-        storage.getItem("colors") !== null
-      ) {
-        if (
-          storage.getItem("id") === resultats._id &&
-          storage.getItem("colors") === document.getElementById("colors").value
-        ) {
-          storage.quantity += document.getElementById("quantity").value;
-        } else {
-          storage.id = resultats._id;
-          storage.name = resultats.name;
-          storage.price = resultats.price;
-          storage.colors = document.getElementById("colors").value;
-          storage.quantity = document.getElementById("quantity").value;
-        }
-        else{
-          
-        }
+
+      var panier = storage.getItem("cartInLocalStorage");
+      console.log(panier);
+      if (panier == null) {
+        panier = Array();
+      } else {
+        panier = JSON.parse(panier);
       }
 
-      /*--
-      let cart = new Array();
-      cart.push(resultats._id);
-      cart.push(resultats.name);
-      cart.push(resultats.price);
-      cart.push(document.getElementById("colors").value);
-      cart.push(document.getElementById("quantity").value);
---*/
+      /*--variable d'un produit--*/
+      let produit = {
+        id: resultats._id,
+        name: resultats.name,
+        price: resultats.price,
+        colors: document.getElementById("colors").value,
+        quantity: document.getElementById("quantity").value,
+      };
 
-      alert(storage.getItem("id"));
+      panier.push(produit);
+      console.log(produit);
+      storage.setItem("cartInLocalStorage", JSON.stringify(panier));
     });
   });
 
