@@ -15,25 +15,32 @@ fetch(productId)
     document.getElementById("addToCart").addEventListener("click", function () {
       let storage = window.localStorage;
 
-      var panier = storage.getItem("cartInLocalStorage");
-      console.log(panier);
-      if (panier == null) {
-        panier = Array();
-      } else {
-        panier = JSON.parse(panier);
-      }
-
       /*--variable d'un produit--*/
       let produit = {
         id: resultats._id,
         name: resultats.name,
-        price: resultats.price,
         colors: document.getElementById("colors").value,
-        quantity: document.getElementById("quantity").value,
+        quantity: parseInt(document.getElementById("quantity").value),
       };
 
-      panier.push(produit);
-      console.log(produit);
+      /*--variable qui rajoute des unités dans le panier si l'id du produit est deja present--*/
+      var panier = getBasket();
+      let foundProduct = panier.find(
+        (p) => p.id == produit.id && p.colors == produit.colors
+      );
+      console.log(foundProduct);
+      if (foundProduct != undefined) {
+        foundProduct.quantity =
+          parseInt(foundProduct.quantity) + parseInt(produit.quantity);
+        console.log("produit deja present dans le panier");
+      } else {
+        panier.push(produit);
+
+        console.log("produits non present dans le panier");
+      }
+      console.log(panier);
+      /*--variable qui enleve si besoin--*/
+
       storage.setItem("cartInLocalStorage", JSON.stringify(panier));
     });
   });
