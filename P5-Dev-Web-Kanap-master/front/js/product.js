@@ -11,7 +11,7 @@ fetch(productId)
     let resultats = data;
     printProduct(resultats);
 
-    /*--ajout du produit dans le localStorage--*/
+    /*--ajout du produit dans le localStorage en event--*/
     document.getElementById("addToCart").addEventListener("click", function () {
       let storage = window.localStorage;
 
